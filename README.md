@@ -37,9 +37,6 @@ This project aims to be a learning resource for students in the "Cooperative Dis
 
 This table format provides a clear, side-by-side comparison of key aspects of Web2 and Web3 architectures, highlighting the distinct approaches each takes in terms of client interaction, API/ABI documentation, backend logic, and data persistence.
 
-The smart contract has been developed in Solidity (solc v >= 0.8.0), and it's been developed as written with Solidity which is then compiled, migrated and deployed using Truffle.js on the Gode Testnet blockchain network.The frontend uses Web3.js to communicate with the smart contract and Gode Testnet blockchain network and Meta Musk Wallet is connect to Gode Test Network to do Transaction between each component in Operations .
-
-
 ****
 
 ![High-Level Architecture Diagram](client/public/assets/SupplyChain-on-Blockchain%20Architecture.png)
