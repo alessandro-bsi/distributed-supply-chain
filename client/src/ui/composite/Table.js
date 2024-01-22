@@ -1,11 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import Popup from 'reactjs-popup';
+import React, {useState} from 'react';
 import 'reactjs-popup/dist/index.css';
-import {EditActorForm} from "../simple/ActorForm";
-import {Console} from "truffle/build/6031.bundled";
 import EditActorModal, {ShowTrackingModal} from "../simple/Modals";
 import Button from "react-bootstrap/Button";
-import {loadActorInfo, loadProductInfo} from "../../common/utils";
+import {loadProductInfo} from "../../common/utils";
 
 const Table = ({ data, handleEdit, tableName= "", headers = null, startIndex = 0}) => {
     if (!Array.isArray(data) || data.length === 0) {
