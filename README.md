@@ -8,6 +8,38 @@
 
 <h4 align="center">Generic supply chain management contract written in <a href="https://docs.soliditylang.org/en/v0.8.4/" target="_blank">Solidity</a>.</h4>
 
+# Table of Contents
+1. [Description](#description)
+2. [Architecture](#architecture)
+3. [Operations Chain Flow](#operations-chain-flow)
+4. [Smart Contract Implementation](#smart-contract-implementation)
+   - [ISupplyChain.sol: Abstract Contract Overview](#isupplychainsol-abstract-contract-overview)
+     - [Main Entities](#main-entities)
+       - [Actors](#actors)
+       - [Product](#product)
+     - [Methods / Functionalities](#methods--functionalities)
+   - [SimpleSupplyChain.sol: A Simplistic Supply Chain Implementation](#simplesupplychainsol-a-simplistic-supply-chain-implementation)
+   - [LessSimpleSupplyChainImplementation.sol: An Advanced Supply Chain Model](#lesssimplesupplychainimplementationsol-an-advanced-supply-chain-model)
+5. [Setting up Local Development](#setting-up-local-development)
+   - [Software](#software)
+   - [Installation via Docker](#installation-via-docker)
+     - [Docker installation (Ubuntu)](#docker-installation-ubuntu)
+     - [App Setup](#app-setup)
+   - [Installation via PowerShell](#installation-via-powershell)
+   - [Project structure](#project-structure)
+   - [Project Deployment - Overview](#project-deployment---overview)
+   - [Smart Contract Deployment - Commands](#smart-contract-deployment---commands)
+   - [Installation in WSL](#installation-in-wsl)
+   - [Test the smart contract](#test-the-smart-contract)
+6. [Interact with the Web Application (MetaMask)](#interact-with-the-web-application-metamask)
+7. [Distributed Application Demo](#distributed-application-demo)
+8. [License](#license)
+9. [Design choices](#design-choices)
+   - [RBAC Implementation](#rbac-implementation)
+   - [Role based Dispatching](#role-based-dispatching)
+10. [Improvements List](#improvements-list)
+11. [References and additional info](#references-and-additional-info)
+
 ## Description
 This project, developed as part of the "Cooperative Distributed Systems" course, presents a Solidity-based smart contract for managing the supply chain from material providers to end customers. Its primary focus is to provide students with hands-on experience in understanding and implementing distributed systems using blockchain technology.
 
@@ -152,16 +184,80 @@ to be run on the Windows host, while the Truffle suite and React client can be e
 
 It's important to note that this was a completely arbitrary choice, and can be changed.
 
-> 18/01/2024: I am currently trying to docker-ize the solution. 
+> 18/01/2024: I am currently trying to docker-ize the solution.
+> 
+> 22/01/2024: The solution is fully docker-ized. 
 
-## Software
+### Software
 
 * **IDE**: You can use whatever IDE you like, I personally use [WebStorm](https://www.jetbrains.com/webstorm/download/#section=windows) or 
 [VSCode](https://code.visualstudio.com/).
 * **Ganache**: Ganache is needed in testing to emulate the blockchain, I recommend running it on Windows
 * **MetaMask** : MetaMask is required to interact with the Blockchain. Can be installed from the Chrome Web Store or Firefox Add-ons Store.
 
-## Installation via PowerShell
+### Installation via Docker
+
+This is the simplest way to try out the application. You need to have `docker` and `docker-compose` 
+installed on your host machine.
+
+#### Docker installation (Ubuntu)
+
+* [Docker Installation on ubuntu with snap](https://snapcraft.io/install/docker/ubuntu)
+
+Otherwise:
+
+* [Docker installation with apt](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
+* [Docker compose installation](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-22-04)
+
+#### App Setup
+
+The app setup in this case is extremely easy. Simply clone the project and execute docker-compose on it.
+
+```shell
+# Clone project
+git clone https://github.com/alessandro-bsi/distributed-supply-chain
+# Enter directory
+cd distributed-supply-chain
+# Build containers
+sudo docker-compose build 
+# Run services
+sudo docker-compose start
+# Wait a bit
+sleep 5
+# Now fetch the logs of the ganache container to grab wallets and keys
+sudo docker-compose logs ganache | grep -P "\(\d\)" | tail -n 20
+# The React application will start and you can reach it on http://localhost:3000
+```
+
+The script above should grab all the accounts/keys and show you something like this:
+
+```
+distributed-supply-chain-ganache-1  | (0) 0xa508dD875f10C33C52a8abb20E16fc68E981F186 (1000 ETH)
+distributed-supply-chain-ganache-1  | (1) 0xd4039eB67CBB36429Ad9DD30187B94f6A5122215 (1000 ETH)
+distributed-supply-chain-ganache-1  | (2) 0x7633Fe8542c2218B5A25777477F63D395aA5aFB4 (1000 ETH)
+distributed-supply-chain-ganache-1  | (3) 0xd5cC383881D6d9A7dc1891A0235E11D03Cb992d3 (1000 ETH)
+distributed-supply-chain-ganache-1  | (4) 0xa1D9cBa049eAfF292F654e416773470Ad939d6Ae (1000 ETH)
+distributed-supply-chain-ganache-1  | (5) 0xc86E95d8c0a8352C0c633b51dc3de22Bd96D9E50 (1000 ETH)
+distributed-supply-chain-ganache-1  | (6) 0x5D109a0eB89D225181cd2bF03eE3f60f8B1cd2e6 (1000 ETH)
+distributed-supply-chain-ganache-1  | (7) 0x4c3Da80eAEc19399Bc4ce3486ec58755a875d645 (1000 ETH)
+distributed-supply-chain-ganache-1  | (8) 0xFc9077ACeD8cedAf17796e2992067b9BF8dd0764 (1000 ETH)
+distributed-supply-chain-ganache-1  | (9) 0x8d242e4bc081e2eeD5eb9d6BF734DdF5d2F435e0 (1000 ETH)
+distributed-supply-chain-ganache-1  | (0) 0x22aabb811efca4e6f4748bd18a46b502fa85549df9fa07da649c0a148d7d5530
+distributed-supply-chain-ganache-1  | (1) 0x64e02814da99b567a92404a5ac82c087cd41b0065cd3f4c154c14130f1966aaf
+distributed-supply-chain-ganache-1  | (2) 0xd8f1eaefad7a8410020a1ebb39d68bfe78cede745e235e3f9e7d50cfe7454b14
+distributed-supply-chain-ganache-1  | (3) 0x390f8b5dd939337d7ca7ccb18f0a81deade0ff1595e9149e9ae94f5a6d74117f
+distributed-supply-chain-ganache-1  | (4) 0x03af29fc0ada658eae910100911c47d1c1ec11555359fc8f9aba2c9c2682f2c0
+distributed-supply-chain-ganache-1  | (5) 0xe81d183d832dfc9ad417fa4c0eed5a68ca0b01c2ad56904188f8a3f7c13b1938
+distributed-supply-chain-ganache-1  | (6) 0xb36054b09ad0f09f554a4f43bd08854b7fe4c4d6e686191db1a8b2bc3c24c3ba
+distributed-supply-chain-ganache-1  | (7) 0x054efa1eee99e1804826501e678f6e867bb34c4970e08245e1000ae3618bf7fc
+distributed-supply-chain-ganache-1  | (8) 0x78331762940660e755900794a8792bcf2bd8ae24eb068ec8e5a0715a28259f1c
+distributed-supply-chain-ganache-1  | (9) 0x45d1442d025d4953eea1de3f4942007c320eed3a0804f38991c838ec09cc8225
+```
+
+Keep notes of these wallets and keys because they will be needed to setup the signer (MetaMask).
+
+
+### Installation via PowerShell 
 
 If on Windows, downloading the software can be done with the following PowerShell script:
 
@@ -198,8 +294,8 @@ Write-Host "Installation complete!"
 Write-Host "Enabling Windows Subsystem for Linux..."
 wsl --install -d Ubuntu
 ```
- 
-## Project structure
+
+### Project structure
 
 The project structure for the DApp, developed using Truffle, is organized into several key directories 
 and files:
@@ -232,7 +328,7 @@ and files:
   - This also contains its own `package.json` file with its own dependencies.
   - Includes the `artifacts` directory, which is where the smart contract ABI is stored. 
 
-## Project Deployment - Overview
+### Project Deployment - Overview
 
 The smart contract framework in our project is structured around the `ISupplyChain.sol` contract, 
 which serves as the core component. Initially, it was developed as an abstract contract to 
@@ -247,7 +343,7 @@ The final list of contracts that get deployed is managed through the `migrations
 file. This file is customizable, enabling the inclusion or exclusion of different contracts 
 based on specific needs or objectives. 
 
-## Smart Contract Deployment - Commands
+### Smart Contract Deployment - Commands
 
 The smart contract was tested and deployed on a simple Ganache test network. In order for it to work,
 it is necessary to ensure that Ganache is up and running and a test workspace has been created:
@@ -292,7 +388,7 @@ WSL address:
 - `truffle-config.js`: Used by truffle for contract deployment
 - `client/src/common/autogen.js`: Used by client to autogenerate data in the Blockchain
 
-## Test the smart contract
+### Test the smart contract
 
 To test the working of a smart contract before deploying it and testing it with a client, 
 you should rely on the Truffle Suite Testing framework, which can easily be used to create
@@ -401,9 +497,52 @@ A demo of the application can be found at the link below:
 <br/>
 </div>
 
-
 ### License
 This project is released under the [MIT](https://opensource.org/licenses/MIT)  License, a permissive open-source license. This means that anyone is free to use, modify, distribute, and sublicense the project, even for commercial use, as long as they include the original copyright notice and license in any substantial portions of the software.
+
+## Design choices 
+
+The application has been developed following certain design choices that you might want to change or
+at least be aware of.
+
+### RBAC Implementation
+
+The RBAC model was implemented in a silly, yet effective strategy, following 2 principles:
+
+- The Role of a user is immutable
+- Each registered user can have at most 1 Role
+
+This led to the implementation via 5 different Mappings (1 x Role). Mappings were preferred
+over arrays as they are notoriously more efficient.
+
+However, this means that operations like checking if a user is registered, or fetching the role of a user,
+require internal calls to loop through all the mappings for each role. Although this may create
+inefficiencies when searching users of a specific role, the average time required to fetch a user is still
+linear in the number of registered users.
+
+> Another implementation could be done by adding a ROLE enum to the Actor structure. This would have
+> simplified the recovery strategy of a user, but would have required to loop through the whole Actor
+> mapping regardless if the Role of the user was known or not.
+
+This led to the implementation of utility functions that check and return the role of a user in a string form.
+
+### Role based Dispatching 
+
+The contract doesn't currently implement a Role enum or a numeric representation of a Role.
+
+This means that Role based dispatching is usually based on string objects. This is 
+expensive in terms of GAS used, and can ultimately be optimised. String comparisons are
+implemented with natively supported HASH checks, but they would be way more efficient implemented
+as numeric calculations.
+
+## Improvements List
+
+- [ ] Replace strings with numeric objects or bytes
+- [x] Variable Packing
+- [x] Replace `uint8`, `uint32`,... with `uint256`
+- [ ] Use unchecked where overflows and underflows are deemed impossible
+- [ ] Consistently implement short-circuiting strategies
+- [x] Optimize modifiers
 
 ## References and additional info
 
