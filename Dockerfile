@@ -4,19 +4,22 @@
 FROM node:latest
 
 # Set the working directory
-WORKDIR /usr/app
+WORKDIR /compiler
 
 # Copy package.json and package-lock.json to the container
-COPY package*.json .
+COPY package*.json ./
 
 # Install dependencies
-RUN apt-get update & npm install --quiet
+RUN npm install -g truffle
+
+RUN npm install
 
 # Copy the app source code to the container
 COPY . .
 
-# Expose port
-EXPOSE 3000
+# Build the app
+RUN truffle compile
 
 # Set the command to start the app
-CMD ["npm", "start"]
+CMD ["truffle", "migrate"]
+

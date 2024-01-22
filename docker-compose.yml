@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  ganache:
+    image: trufflesuite/ganache
+    networks:
+      localnet:
+        ipv4_address: 172.20.0.2
+    ports:
+      - "7545:7545"
+    volumes:
+      - ./ganache-data:/ganache-data
+    entrypoint:
+      - node
+      - /app/dist/node/cli.js
+      - --db=/ganache_data
+      - --mnemonic
+      - 'minimum symptom minute gloom tragic situate silver mechanic salad amused elite beef'
+      - --networkId
+      - '5777'
+      - -h
+      - '0.0.0.0'
+      - -p
+      - '7545'
+
+  truffle:
+    build: .
+    depends_on:
+      - ganache
+    networks:
+      - localnet
+    command: >
+      sh -c "truffle migrate"
+    environment:
+      RPC_SERVER: 172.20.0.2
+
+  react-app:
+    build: ./client
+    depends_on:
+      - ganache
+      - truffle
+    networks:
+      - localnet
+    links:
+      - "truffle:truffle"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/usr/app/
+      - /usr/app/node_modules
+    working_dir: /usr/app
+    environment:
+      RPC_SERVER: 172.20.0.2
+    command: >
+      bash -c "sed -i 's/172.27.96.1/172.20.0.2/g' 'src/common/autogen.js' &&
+               sleep 10 && npm start"
+
+networks:
+  localnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
