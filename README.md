@@ -256,6 +256,7 @@ distributed-supply-chain-ganache-1  | (9) 0x45d1442d025d4953eea1de3f4942007c320e
 
 Keep notes of these wallets and keys because they will be needed to setup the signer (MetaMask).
 
+You can now go immediately to [Interact with the Web Application (MetaMask)](#interact-with-the-web-application-metamask).
 
 ### Installation via PowerShell 
 
