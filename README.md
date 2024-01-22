@@ -256,6 +256,7 @@ it is necessary to ensure that Ganache is up and running and a test workspace ha
 
 <div align="center">
 <figcaption><i>Click on the image to be redirected to my 30s step-by-step setup guide on YouTube</i></figcaption>
+<br/>
 </div>
 
 If you are following these instructions, be sure to take note of the WSL interface address (i.e., 
@@ -386,6 +387,7 @@ We chose MetaMask for its simplicity. You can install it on the browser as a plu
 
 <div align="center">
 <figcaption><i>Click on the image to be redirected to my 30s step-by-step setup guide on YouTube</i></figcaption>
+<br/>
 </div>
 
 ## Distributed Application Demo
@@ -396,6 +398,7 @@ A demo of the application can be found at the link below:
 
 <div align="center">
 <figcaption><i>Click on the image to be redirected to a full demo on YouTube</i></figcaption>
+<br/>
 </div>
 
 
