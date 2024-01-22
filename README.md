@@ -8,9 +8,6 @@
 
 <h4 align="center">Generic supply chain management contract written in <a href="https://docs.soliditylang.org/en/v0.8.4/" target="_blank">Solidity</a>.</h4>
 
-## Demo 
-TBD
-
 ## Description
 This project, developed as part of the "Cooperative Distributed Systems" course, presents a Solidity-based smart contract for managing the supply chain from material providers to end customers. Its primary focus is to provide students with hands-on experience in understanding and implementing distributed systems using blockchain technology.
 
@@ -26,8 +23,6 @@ This project aims to be a learning resource for students in the "Cooperative Dis
 
 ## Architecture
 
-
-
 | Aspect                 | Web2                                                                                                                   | Web3                                                                                                                                                                                            |
 |------------------------|------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Client Interaction** | - Uses standard web technologies.<br>- Communicates with backend servers using HTTP requests.                          | - Also uses standard web technologies.<br>- Requires a blockchain plugin or library like Ether.js or Web3.js for interacting with the blockchain.                                               |
@@ -39,14 +34,17 @@ This table format provides a clear, side-by-side comparison of key aspects of We
 
 ****
 
-![High-Level Architecture Diagram](client/public/assets/SupplyChain-on-Blockchain%20Architecture.png)
+<div align="center">
+<img src="client/public/assets/SupplyChain-on-Blockchain%20Architecture.png"/><br/>
+<figcaption>Fig. 1 - High-Level Architecture Diagram</figcaption>
+</div>
 
 ## Operations Chain Flow
 
-
-![Supply Chain Flow](client/public/assets/supply-chain.png)
-
-
+<div align="center">
+<img src="client/public/assets/supply-chain.png"/><br/>
+<figcaption>Fig. 2 - Generic Supply chain flow</figcaption>
+</div>
 
 ## Smart Contract Implementation
 
@@ -93,7 +91,7 @@ Self-user registration is not natively supported. The generic implementation onl
 method to add user with a predefined role.
 
 <div align="center">
-<img src="client/public/assets/GenericSupplyChain-ActorRegistration.png"/>
+<img src="client/public/assets/GenericSupplyChain-ActorRegistration.png"/><br/>
 <figcaption>Fig. 3 - User Registration/Creation Process</figcaption>
 </div>
 
@@ -116,7 +114,11 @@ phase management.
   - The final stage in this supply chain is marked by the 'SOLD' state. This state indicates that the product has successfully reached the end of its supply chain journey and has been sold to the end-consumer.
   - Reaching the 'SOLD' state signifies the completion of the supply chain process for a specific product, marking the end of its tracking within this system.
 
-![Simple Supply Chain](client/public/assets/SimpleSupplyChain.png)
+
+<div align="center">
+<img src="client/public/assets/SimpleSupplyChain.png"/><br/>
+<figcaption>Fig. 4 - Simple Supply Chain Model</figcaption>
+</div>
 
 ---
 
@@ -138,7 +140,10 @@ The "LessSimpleSupplyChainImplementation.sol" contract represents an evolution i
   - Upon rejection, the responsibility reverts back to the actor who previously completed that phase. This allows them to address and rectify any issues or deficiencies identified.
   - This feature ensures that each phase of the supply chain meets the required standards before moving forward, enhancing overall quality control.
 
-![Less-Simple Supply Chain](client/public/assets/LessSimpleSupplyChain.png)
+<div align="center">
+<img src="client/public/assets/LessSimpleSupplyChain.png"/><br/>
+<figcaption>Fig. 4 - Less-Simple Supply Chain Model</figcaption>
+</div>
 
 ##  Setting up Local Development
 
@@ -248,6 +253,10 @@ The smart contract was tested and deployed on a simple Ganache test network. In 
 it is necessary to ensure that Ganache is up and running and a test workspace has been created:
 
 [![Create Workspace in Ganache](https://img.youtube.com/vi/dBriHTfeYpw/0.jpg)](https://www.youtube.com/watch?v=dBriHTfeYpw&list=PLTzsU0u_x1EIYiTWXNQ91I2fsprmQawbK&index=1)
+
+<div align="center">
+<figcaption><i>Click on the image to be redirected to my 30s step-by-step setup guide on YouTube</i></figcaption>
+</div>
 
 If you are following these instructions, be sure to take note of the WSL interface address (i.e., 
 in the video, it was `172.27.96.1`).
@@ -375,11 +384,20 @@ We chose MetaMask for its simplicity. You can install it on the browser as a plu
 
 [![Install and Enable MetaMask](https://img.youtube.com/vi/v3K_2ZZby-s/0.jpg)](https://www.youtube.com/watch?v=v3K_2ZZby-s)
 
+<div align="center">
+<figcaption><i>Click on the image to be redirected to my 30s step-by-step setup guide on YouTube</i></figcaption>
+</div>
+
 ## Distributed Application Demo
 
 A demo of the application can be found at the link below:
 
 [![Full Application Demo](https://img.youtube.com/vi/cK5xKLCUj9g/0.jpg)](https://www.youtube.com/watch?v=cK5xKLCUj9g)
+
+<div align="center">
+<figcaption><i>Click on the image to be redirected to a full demo on YouTube</i></figcaption>
+</div>
+
 
 ### License
 This project is released under the [MIT](https://opensource.org/licenses/MIT)  License, a permissive open-source license. This means that anyone is free to use, modify, distribute, and sublicense the project, even for commercial use, as long as they include the original copyright notice and license in any substantial portions of the software.
