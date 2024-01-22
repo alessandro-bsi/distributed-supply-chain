@@ -55,6 +55,11 @@ This project aims to be a learning resource for students in the "Cooperative Dis
 
 ## Architecture
 
+The architecture of a Distributed Application (i.e., Web3) vary considerably from a regular Web2 Application.
+However, they share similarities that can help a Web2 developer to understand the Web3 architecture in no time.
+
+Below, a table highlighting these similarities in an organized manner.
+
 | Aspect                 | Web2                                                                                                                   | Web3                                                                                                                                                                                            |
 |------------------------|------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Client Interaction** | - Uses standard web technologies.<br>- Communicates with backend servers using HTTP requests.                          | - Also uses standard web technologies.<br>- Requires a blockchain plugin or library like Ether.js or Web3.js for interacting with the blockchain.                                               |
@@ -62,7 +67,9 @@ This project aims to be a learning resource for students in the "Cooperative Dis
 | **Backend Logic**      | - Backend server implements application logic.<br>- Responsible for processing requests and operations.                | - Backend logic is embedded within smart contracts on the blockchain.<br>- Smart contract defines rules, operations, and state changes.                                                         |
 | **Data Persistence**   | - Interacts with a centralized database for data storage and retrieval.                                                | - Data persistence is achieved through the blockchain, where transactions and state changes are recorded immutably.                                                                             |
 
-This table format provides a clear, side-by-side comparison of key aspects of Web2 and Web3 architectures, highlighting the distinct approaches each takes in terms of client interaction, API/ABI documentation, backend logic, and data persistence.
+<div align="center">
+<figcaption>Table. 1 - Side-by-side comparison of key aspects of Web2 and Web3 architectures</figcaption>
+</div>
 
 ****
 
