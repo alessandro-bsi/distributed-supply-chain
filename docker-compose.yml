@@ -52,7 +52,7 @@ services:
     environment:
       RPC_SERVER: 172.20.0.2
     command: >
-      bash -c "sed -i 's/172.27.96.1/172.20.0.2/g' 'src/common/autogen.js' &&
+      bash -c "sed -i 's/http:.*:.545/http:\/\/172.20.0.2:7545/g' 'src/common/autogen.js' &&
                sleep 10 && npm start"
 
 networks:
