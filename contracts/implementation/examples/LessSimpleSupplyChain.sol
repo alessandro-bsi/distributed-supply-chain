@@ -5,6 +5,23 @@ import "../ISupplyChain.sol";
 
 // Inherits Super Interface for a generic supply chain
 contract LessSimpleSupplyChain is ISupplyChain{
+
+    function _ensureStatePermissions(uint256 _caller, uint256 _productID, PHASE _phase) internal view returns(bool) {
+
+        // If this state is a recover from a failure, then
+        // we need to ensure the caller is the original provider
+        if(Stock[_productID].phase == _phase) {
+            return Stock[_productID].requireResponseBy == _caller;
+        }
+        // Else if the user is trying to complete a phase, we want to ensure
+        // the actor is the same who started it
+        else {
+            // Ensure that the Provider is the same who started the extraction
+            return Stock[_productID].lastModifiedBy == _caller;
+        }
+
+    }
+
     /*
     * This kind of supply chain supports all operations
     */
@@ -39,14 +56,8 @@ contract LessSimpleSupplyChain is ISupplyChain{
             "You don't have the right to modify the product at this stage"
         );
 
-        // If this state is a recover from a ResourceExtraction_Failed, then
-        // we need to ensure the caller is the original provider
-        if(Stock[_productID].phase == PHASE.ResourceExtraction_Failed) {
-            require(
-                Stock[_productID].requireResponseBy == _id,
-                "Access Denied"
-            );
-        }
+        require(_ensureStatePermissions(_id, _productID, PHASE.ResourceExtraction_Failed), "Access Denied");
+
         Stock[_productID].lastModifiedBy = _id;
         Stock[_productID].requireResponseBy = 0;
         Stock[_productID].phase = PHASE.ResourceExtraction_Completed;
@@ -116,12 +127,8 @@ contract LessSimpleSupplyChain is ISupplyChain{
             "You don't have the right to modify the product at this stage"
         );
 
-        if(Stock[_productID].phase == PHASE.ResourceSupply_Failed) {
-            require(
-                Stock[_productID].requireResponseBy == _id,
-                "Access Denied"
-            );
-        }
+        require(_ensureStatePermissions(_id, _productID, PHASE.ResourceSupply_Failed), "Access Denied");
+
         // Finally, update product stage
         Stock[_productID].lastModifiedBy = _id;
         Stock[_productID].requireResponseBy = 0;
@@ -176,6 +183,12 @@ contract LessSimpleSupplyChain is ISupplyChain{
             Stock[_productID].phase == PHASE.Manufacturing_Started,
             "You don't have the right to modify the product at this stage"
         );
+
+        // Ensure that the Actor is the same who started the phase
+        require(
+        _id ==  Stock[_productID].lastModifiedBy,
+        "The actor is not the same who started the phase");
+
         // Finally, update product stage
         Stock[_productID].lastModifiedBy = _id;
         Stock[_productID].requireResponseBy = 0;
@@ -215,12 +228,7 @@ contract LessSimpleSupplyChain is ISupplyChain{
             "You don't have the right to modify the product at this stage"
         );
 
-        if(Stock[_productID].phase == PHASE.Distribution_Failed) {
-            require(
-                Stock[_productID].requireResponseBy == _id,
-                "Access Denied"
-            );
-        }
+        require(_ensureStatePermissions(_id, _productID, PHASE.Distribution_Failed), "Access Denied");
 
         // Finally, update product stage
         Stock[_productID].lastModifiedBy = _id;
