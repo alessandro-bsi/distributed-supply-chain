@@ -415,21 +415,25 @@ truffle test
 You will see that they are all passing:
 
 ```
-  Contract: LessSimpleSupplyChain
-    ✔ should allow the owner to add a new product (506ms)
-    ✔ should not allow a non-owner to add a new product (210ms)
-    ✔ should not allow a non-provider to start resource extraction (49ms)
-    ✔ should allow a valid provider to start resource extraction (162ms)
-    ✔ should allow a valid provider to complete resource extraction (167ms)
-    ✔ should allow a valid supplier to start resource supply (182ms)
-    ✔ should allow a valid supplier to complete resource supply (136ms)
-    ✔ should allow a valid manufacturer to start manufacturing (223ms)
-    ✔ should allow a valid manufacturer to complete manufacturing (191ms)
-    ✔ should allow a valid distributor to start distribution (202ms)
-    ✔ should allow a valid distributor to complete distribution (185ms)
-    ✔ should allow a valid retailer to starting retail (193ms)
+    Contract: LessSimpleSupplyChain
+    ✔ should allow the owner to add a new product (479ms)
+    ✔ should not allow a non-owner to add a new product (231ms)
+    ✔ should not allow a non-provider to start resource extraction
+    ✔ should allow a valid provider to start resource extraction (131ms)
+    ✔ should not allow a valid, but different provider to complete resource extraction (60ms)
+    ✔ should allow the valid provider to complete resource extraction (135ms)
+    ✔ should allow a valid supplier to fail resource extraction (152ms)
+    ✔ should not allow a valid, but different provider to resolve resource extraction failure (70ms)
+    ✔ should allow a valid supplier to start resource supply (121ms)
+    ✔ should allow a valid supplier to complete resource supply (139ms)
+    ✔ should allow a valid manufacturer to start manufacturing (139ms)
+    ✔ should allow a valid manufacturer to complete manufacturing (154ms)
+    ✔ should allow a valid distributor to start distribution (130ms)
+    ✔ should allow a valid distributor to complete distribution (125ms)
+    ✔ should allow a valid retailer to starting retail (102ms)
 
-  12 passing (4s)
+
+  15 passing (3s)
 ```
 
 To add a specific test, you can follow a specific, simple, pattern:
