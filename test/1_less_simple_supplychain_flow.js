@@ -26,11 +26,13 @@ contract("LessSimpleSupplyChain", accounts => {
     const distributor = accounts[4];
     const retailer = accounts[5];
     const unauthorizedActor = accounts[6];
+    const provider2 = accounts[7];
 
     before(async () => {
         lessSimpleSupplyChain = await LessSimpleSupplyChain.deployed();
         // Additional setup if necessary
         await lessSimpleSupplyChain.addActor(provider, "Provider", "Provider 1", "Provider 1 Address", { from: owner });
+        await lessSimpleSupplyChain.addActor(provider2, "Provider", "Provider 2", "Provider 1 Address", { from: owner });
         await lessSimpleSupplyChain.addActor(supplier, "Supplier", "Supplier 1", "Supplier 1 Address", { from: owner });
         await lessSimpleSupplyChain.addActor(manufacturer, "Manufacturer", "Manufacturer 1", "Manufacturer 1 Address", { from: owner });
         await lessSimpleSupplyChain.addActor(distributor, "Distributor", "Distributor 1", "Distributor 1 Address", { from: owner });
@@ -80,7 +82,19 @@ contract("LessSimpleSupplyChain", accounts => {
     });
 
 
-    it("should allow a valid provider to complete resource extraction", async () => {
+    it("should not allow a valid, but different provider to complete resource extraction", async () => {
+        try {
+            const productId = 1;
+            const product = await lessSimpleSupplyChain.Stock(productId);
+            await lessSimpleSupplyChain.acceptPhase(productId, { from: provider2 });
+            const phase =  await lessSimpleSupplyChain.showPhase(productId);
+            assert(phase.includes("Extraction"), "Incorrect phase for completion");
+        } catch (error) {
+            assert(!error.message.includes("The actor is not the same who started the phase"), "Permission issue");
+        }
+    });
+
+    it("should allow the valid provider to complete resource extraction", async () => {
         try {
             const productId = 1;
             const product = await lessSimpleSupplyChain.Stock(productId);
@@ -91,6 +105,31 @@ contract("LessSimpleSupplyChain", accounts => {
             assert(!error.message.includes("You don't have the right to modify the product at this stage"), "Permission issue");
         }
 
+    });
+
+    // Testing Fail Resource Extraction
+    it("should allow a valid supplier to fail resource extraction", async () => {
+        try {
+            const productId = 1;
+            const product = await lessSimpleSupplyChain.Stock(productId);
+            await lessSimpleSupplyChain.rejectPhase(productId, { from: supplier });
+            const phase =  await lessSimpleSupplyChain.showPhase(productId);
+            assert(phase.includes("Extraction"), "Incorrect phase for completion");
+        } catch (error) {
+            assert(!error.message.includes("You don't have the right to modify the product at this stage"), "Permission issue");
+        }
+    });
+
+    it("should not allow a valid, but different provider to resolve resource extraction failure", async () => {
+        try {
+            const productId = 1;
+            const product = await lessSimpleSupplyChain.Stock(productId);
+            await lessSimpleSupplyChain.acceptPhase(productId, { from: provider2 });
+            const phase =  await lessSimpleSupplyChain.showPhase(productId);
+            assert(phase.includes("Extraction"), "Incorrect phase for completion");
+        } catch (error) {
+            assert(!error.message.includes("Access Denied"), "Permission issue");
+        }
     });
 
     // Testing Resource Supply
