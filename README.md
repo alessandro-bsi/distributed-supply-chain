@@ -226,7 +226,7 @@ git clone https://github.com/alessandro-bsi/distributed-supply-chain
 # Enter directory
 cd distributed-supply-chain
 # Build containers
-sudo docker-compose build 
+sudo docker-compose create --build
 # Run services
 sudo docker-compose start
 # Wait a bit
