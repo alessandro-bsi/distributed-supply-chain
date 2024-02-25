@@ -117,7 +117,7 @@ contract LessSimpleSupplyChain is ISupplyChain{
     function completeResourceSupply(uint256 _productID) override(ISupplyChain) public {
         // Ensure that the product ID is within the ones present in Stock (i.e., have been ordered)
         require(validateProductId(_productID), "The product is not in the Blockchain");
-        // Ensure that the caller is a Manufacturer
+        // Ensure that the caller is a Supplier
         (uint256 _id, bool _isValid) = isSupplier();
         require(_isValid, "The user is not a registered manufacturer");
         // Ensure that the product is in correct stage
@@ -150,7 +150,7 @@ contract LessSimpleSupplyChain is ISupplyChain{
 
         // Finally, update product stage
         Stock[_productID].lastModifiedBy = _id;
-        Stock[_productID].phase = PHASE.ResourceSupply_Completed;
+        Stock[_productID].phase = PHASE.ResourceSupply_Failed;
     }
 
     function startManufacturing(uint256 _productID) override(ISupplyChain) public {

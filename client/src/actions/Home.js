@@ -3,8 +3,6 @@ import { useHistory } from "react-router-dom"
 import Navigator from "../ui/simple/Navigator";
 import HeaderCard from "../ui/simple/Card";
 import {loadCurrentUser, loadWeb3} from "../common/utils";
-import SupplyChainABI from "../artifacts/LessSimpleSupplyChain.json";
-import Web3 from "web3";
 import {generateData} from "../common/autogen";
 
 function Home() {
