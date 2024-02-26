@@ -3,10 +3,13 @@ pragma solidity ^0.8.0;
 
 // Super Interface for a generic supply chain
 contract ISupplyChain {
-    //Smart Contract owner will be the person who deploys the contract only he can authorize various roles like retailer, Manufacturer,etc
+    // Smart Contract owner will be the person who deploys the
+    // contract only he can authorize various roles like Retailer,
+    // Manufacturer,etc
     address public Owner;
 
-    //note this constructor will be called when smart contract will be deployed on blockchain
+    // This constructor will be called when the smart contract
+    // will be deployed on blockchain
     constructor() {
         Owner = msg.sender;
     }
@@ -722,7 +725,10 @@ contract ISupplyChain {
 
     function addNewProduct(string memory _name, string memory _description) public onlyByOwner()
     {
-        require(atLeastOneActor(), "The supply chain is missing the required entities to operate");
+        require(
+            atLeastOneActor(),
+            "The supply chain is missing the required entities to operate"
+        );
         _productCounter++;
 
         Stock[_productCounter] = Product(
